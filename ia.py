@@ -74,6 +74,17 @@ class GRU:
         self.h_t = (1 - z_t) * self.h_t + z_t * h_candidat  # Mise à jour de l'état caché
         return self.h_t
 
+# Classe pour la version GRU Neurone unique
+class GRUNeurone(Neurone):
+    def __init__(self, nombre_neurones: int, nombre_entrees: int):
+        """
+        Similaire à un neurone classique, mais avec le comportement d'un GRU.
+        """
+        self.gru = GRU(nombre_neurones, nombre_entrees)
+
+    def activation_function(self, x: list[float]) -> list[float]:
+        return self.gru.calculer_sorties(x)
+
 
 # Classe du réseau neuronal général
 class IA:
@@ -87,10 +98,12 @@ class IA:
         # Création des couches cachées
         for nombre_neurones in configuration_couches_cachees:
             if nombre_neurones < 0:
-                # Création d'une couche GRU
-                couche = GRU(abs(nombre_neurones), nombre_entrees_actuel)
+                # Création d'une couche avec des neurones GRU
+                couche = CoucheCachee(abs(nombre_neurones), nombre_entrees_actuel)
+                for neurone in couche.neurones:
+                    neurone = GRUNeurone(abs(nombre_neurones), nombre_entrees_actuel)
             else:
-                # Création d'une couche Fully-Connected
+                # Création d'une couche Fully-Connected classique
                 couche = CoucheCachee(nombre_neurones, nombre_entrees_actuel)
             self.couches_cachees.append(couche)
             nombre_entrees_actuel = abs(nombre_neurones)
@@ -108,14 +121,8 @@ class IA:
 
         # Propagation à travers chaque couche cachée
         for couche in self.couches_cachees:
-            if isinstance(couche, GRU):
-                entrees_normalisees = couche.calculer_sorties(entrees_normalisees)
-            else:
-                entrees_normalisees = couche.calculer_sorties(entrees_normalisees)
+            entrees_normalisees = couche.calculer_sorties(entrees_normalisees)
         
         # Propagation à travers la couche de sortie
         sorties = self.couche_sortie.calculer_sorties(entrees_normalisees)
         return sorties
-
-# Exécution d'un test avec les tailles de couches données
-
