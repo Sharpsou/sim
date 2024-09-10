@@ -1,6 +1,7 @@
 import tkinter as tk
 import random
 from sim import *
+from config import *
 
 # Ajoutez ici vos imports nécessaires comme `Chasseur`, `Proie`, `Environnement`, etc.
 
@@ -9,118 +10,143 @@ class ConfigurationApp:
         self.root = root
         self.root.title("Configuration Simulation")
 
-        # Utiliser grid pour organiser les éléments côte à côte
+        
+        # Paramètres globaux
         self.grid_size_label = tk.Label(root, text="Taille de la grille (GRID_SIZE):")
         self.grid_size_label.grid(row=0, column=0, padx=10, pady=5, sticky="e")
         self.grid_size_entry = tk.Entry(root)
-        self.grid_size_entry.insert(0, "70")
+        self.grid_size_entry.insert(0, GRID_SIZE)
         self.grid_size_entry.grid(row=0, column=1, padx=10, pady=5)
 
         self.cell_size_label = tk.Label(root, text="Taille des cellules (CELL_SIZE):")
         self.cell_size_label.grid(row=1, column=0, padx=10, pady=5, sticky="e")
         self.cell_size_entry = tk.Entry(root)
-        self.cell_size_entry.insert(0, "10")
+        self.cell_size_entry.insert(0, CELL_SIZE)
         self.cell_size_entry.grid(row=1, column=1, padx=10, pady=5)
 
         self.num_food_label = tk.Label(root, text="Nombre de nourriture (NUM_FOOD):")
         self.num_food_label.grid(row=2, column=0, padx=10, pady=5, sticky="e")
         self.num_food_entry = tk.Entry(root)
-        self.num_food_entry.insert(0, "10")
+        self.num_food_entry.insert(0, NUM_FOOD)
         self.num_food_entry.grid(row=2, column=1, padx=10, pady=5)
 
         self.num_obstacles_label = tk.Label(root, text="Nombre d'obstacles (NUM_OBSTACLES):")
         self.num_obstacles_label.grid(row=3, column=0, padx=10, pady=5, sticky="e")
         self.num_obstacles_entry = tk.Entry(root)
-        self.num_obstacles_entry.insert(0, "30")
+        self.num_obstacles_entry.insert(0, NUM_OBSTACLES)
         self.num_obstacles_entry.grid(row=3, column=1, padx=10, pady=5)
 
+        # Paramètres des proies
         self.num_proie_label = tk.Label(root, text="Nombre de proies (NOMBRE_PROIE):")
         self.num_proie_label.grid(row=4, column=0, padx=10, pady=5, sticky="e")
         self.num_proie_entry = tk.Entry(root)
-        self.num_proie_entry.insert(0, "20")
+        self.num_proie_entry.insert(0, NOMBRE_PROIE)
         self.num_proie_entry.grid(row=4, column=1, padx=10, pady=5)
 
-        self.num_chasseur_label = tk.Label(root, text="Nombre de chasseurs (NOMBRE_CHASSEUR):")
-        self.num_chasseur_label.grid(row=5, column=0, padx=10, pady=5, sticky="e")
-        self.num_chasseur_entry = tk.Entry(root)
-        self.num_chasseur_entry.insert(0, "20")
-        self.num_chasseur_entry.grid(row=5, column=1, padx=10, pady=5)
-
         self.vitesse_proie_label = tk.Label(root, text="Vitesse des proies (VITESSE_PROIE):")
-        self.vitesse_proie_label.grid(row=6, column=0, padx=10, pady=5, sticky="e")
+        self.vitesse_proie_label.grid(row=5, column=0, padx=10, pady=5, sticky="e")
         self.vitesse_proie_entry = tk.Entry(root)
-        self.vitesse_proie_entry.insert(0, "0.9")
-        self.vitesse_proie_entry.grid(row=6, column=1, padx=10, pady=5)
-
-        self.vitesse_chasseur_label = tk.Label(root, text="Vitesse des chasseurs (VITESSE_CHASSEUR):")
-        self.vitesse_chasseur_label.grid(row=7, column=0, padx=10, pady=5, sticky="e")
-        self.vitesse_chasseur_entry = tk.Entry(root)
-        self.vitesse_chasseur_entry.insert(0, "0.8")
-        self.vitesse_chasseur_entry.grid(row=7, column=1, padx=10, pady=5)
+        self.vitesse_proie_entry.insert(0, VITESSE_PROIE)
+        self.vitesse_proie_entry.grid(row=5, column=1, padx=10, pady=5)
 
         self.detect_proie_label = tk.Label(root, text="Portée de détection des proies (DETECT_PROIE):")
-        self.detect_proie_label.grid(row=8, column=0, padx=10, pady=5, sticky="e")
+        self.detect_proie_label.grid(row=6, column=0, padx=10, pady=5, sticky="e")
         self.detect_proie_entry = tk.Entry(root)
-        self.detect_proie_entry.insert(0, "10")
-        self.detect_proie_entry.grid(row=8, column=1, padx=10, pady=5)
-
-        self.detect_chasseur_label = tk.Label(root, text="Portée de détection des chasseurs (DETECT_CHASSEUR):")
-        self.detect_chasseur_label.grid(row=9, column=0, padx=10, pady=5, sticky="e")
-        self.detect_chasseur_entry = tk.Entry(root)
-        self.detect_chasseur_entry.insert(0, "8")
-        self.detect_chasseur_entry.grid(row=9, column=1, padx=10, pady=5)
-
-        self.vitesse_simu_label = tk.Label(root, text="Vitesse de simulation (VITESSE_SIMU):")
-        self.vitesse_simu_label.grid(row=10, column=0, padx=10, pady=5, sticky="e")
-        self.vitesse_simu_entry = tk.Entry(root)
-        self.vitesse_simu_entry.insert(0, "1")
-        self.vitesse_simu_entry.grid(row=10, column=1, padx=10, pady=5)
+        self.detect_proie_entry.insert(0, DETECT_PROIE)
+        self.detect_proie_entry.grid(row=6, column=1, padx=10, pady=5)
 
         self.energie_proie_label = tk.Label(root, text="Énergie initiale des proies (ENERGIE_INITIALE_PROIE):")
-        self.energie_proie_label.grid(row=11, column=0, padx=10, pady=5, sticky="e")
+        self.energie_proie_label.grid(row=7, column=0, padx=10, pady=5, sticky="e")
         self.energie_proie_entry = tk.Entry(root)
-        self.energie_proie_entry.insert(0, "1000")
-        self.energie_proie_entry.grid(row=11, column=1, padx=10, pady=5)
+        self.energie_proie_entry.insert(0, ENERGIE_INITIALE_PROIE)
+        self.energie_proie_entry.grid(row=7, column=1, padx=10, pady=5)
 
         self.energie_deplacement_proie_label = tk.Label(root, text="Énergie déplacement proie (ENERGIE_DEPLACEMENT_PROIE):")
-        self.energie_deplacement_proie_label.grid(row=12, column=0, padx=10, pady=5, sticky="e")
+        self.energie_deplacement_proie_label.grid(row=8, column=0, padx=10, pady=5, sticky="e")
         self.energie_deplacement_proie_entry = tk.Entry(root)
-        self.energie_deplacement_proie_entry.insert(0, "2")
-        self.energie_deplacement_proie_entry.grid(row=12, column=1, padx=10, pady=5)
+        self.energie_deplacement_proie_entry.insert(0, ENERGIE_DEPLACEMENT_PROIE)
+        self.energie_deplacement_proie_entry.grid(row=8, column=1, padx=10, pady=5)
+
+        self.energie_repos_proie_label = tk.Label(root, text="Énergie repos proie (ENERGIE_REPOS_PROIE):")
+        self.energie_repos_proie_label.grid(row=9, column=0, padx=10, pady=5, sticky="e")
+        self.energie_repos_proie_entry = tk.Entry(root)
+        self.energie_repos_proie_entry.insert(0, ENERGIE_REPOS_PROIE)
+        self.energie_repos_proie_entry.grid(row=9, column=1, padx=10, pady=5)
 
         self.energie_gain_proie_label = tk.Label(root, text="Énergie gain proie (ENERGIE_GAIN_PROIE):")
-        self.energie_gain_proie_label.grid(row=13, column=0, padx=10, pady=5, sticky="e")
+        self.energie_gain_proie_label.grid(row=10, column=0, padx=10, pady=5, sticky="e")
         self.energie_gain_proie_entry = tk.Entry(root)
-        self.energie_gain_proie_entry.insert(0, "10")
-        self.energie_gain_proie_entry.grid(row=13, column=1, padx=10, pady=5)
+        self.energie_gain_proie_entry.insert(0, ENERGIE_GAIN_PROIE)
+        self.energie_gain_proie_entry.grid(row=10, column=1, padx=10, pady=5)
+
+        # Paramètres des chasseurs
+        self.num_chasseur_label = tk.Label(root, text="Nombre de chasseurs (NOMBRE_CHASSEUR):")
+        self.num_chasseur_label.grid(row=11, column=0, padx=10, pady=5, sticky="e")
+        self.num_chasseur_entry = tk.Entry(root)
+        self.num_chasseur_entry.insert(0, NOMBRE_CHASSEUR)
+        self.num_chasseur_entry.grid(row=11, column=1, padx=10, pady=5)
+
+        self.vitesse_chasseur_label = tk.Label(root, text="Vitesse des chasseurs (VITESSE_CHASSEUR):")
+        self.vitesse_chasseur_label.grid(row=12, column=0, padx=10, pady=5, sticky="e")
+        self.vitesse_chasseur_entry = tk.Entry(root)
+        self.vitesse_chasseur_entry.insert(0, VITESSE_CHASSEUR)
+        self.vitesse_chasseur_entry.grid(row=12, column=1, padx=10, pady=5)
+
+        self.detect_chasseur_label = tk.Label(root, text="Portée de détection des chasseurs (DETECT_CHASSEUR):")
+        self.detect_chasseur_label.grid(row=13, column=0, padx=10, pady=5, sticky="e")
+        self.detect_chasseur_entry = tk.Entry(root)
+        self.detect_chasseur_entry.insert(0, DETECT_CHASSEUR)
+        self.detect_chasseur_entry.grid(row=13, column=1, padx=10, pady=5)
 
         self.energie_initiale_chasseur_label = tk.Label(root, text="Énergie initiale des chasseurs (ENERGIE_INITIALE_CHASSEUR):")
         self.energie_initiale_chasseur_label.grid(row=14, column=0, padx=10, pady=5, sticky="e")
         self.energie_initiale_chasseur_entry = tk.Entry(root)
-        self.energie_initiale_chasseur_entry.insert(0, "1000")
+        self.energie_initiale_chasseur_entry.insert(0, ENERGIE_INITIALE_CHASSEUR)
         self.energie_initiale_chasseur_entry.grid(row=14, column=1, padx=10, pady=5)
 
         self.energie_deplacement_chasseur_label = tk.Label(root, text="Énergie déplacement chasseur (ENERGIE_DEPLACEMENT_CHASSEUR):")
         self.energie_deplacement_chasseur_label.grid(row=15, column=0, padx=10, pady=5, sticky="e")
         self.energie_deplacement_chasseur_entry = tk.Entry(root)
-        self.energie_deplacement_chasseur_entry.insert(0, "3")
+        self.energie_deplacement_chasseur_entry.insert(0, ENERGIE_DEPLACEMENT_CHASSEUR)
         self.energie_deplacement_chasseur_entry.grid(row=15, column=1, padx=10, pady=5)
 
+        self.energie_repos_chasseur_label = tk.Label(root, text="Énergie repos chasseur (ENERGIE_REPOS_CHASSEUR):")
+        self.energie_repos_chasseur_label.grid(row=16, column=0, padx=10, pady=5, sticky="e")
+        self.energie_repos_chasseur_entry = tk.Entry(root)
+        self.energie_repos_chasseur_entry.insert(0, ENERGIE_REPOS_CHASSEUR)
+        self.energie_repos_chasseur_entry.grid(row=16, column=1, padx=10, pady=5)
+
         self.energie_gain_chasseur_label = tk.Label(root, text="Énergie gain chasseur (ENERGIE_GAIN_CHASSEUR):")
-        self.energie_gain_chasseur_label.grid(row=16, column=0, padx=10, pady=5, sticky="e")
+        self.energie_gain_chasseur_label.grid(row=17, column=0, padx=10, pady=5, sticky="e")
         self.energie_gain_chasseur_entry = tk.Entry(root)
-        self.energie_gain_chasseur_entry.insert(0, "15")
-        self.energie_gain_chasseur_entry.grid(row=16, column=1, padx=10, pady=5)
+        self.energie_gain_chasseur_entry.insert(0, ENERGIE_GAIN_CHASSEUR)
+        self.energie_gain_chasseur_entry.grid(row=17, column=1, padx=10, pady=5)
+
+        # Paramètre du taux de mutation
+        self.mutation_rate_label = tk.Label(root, text="Taux de mutation (MUTATION_RATE):")
+        self.mutation_rate_label.grid(row=18, column=0, padx=10, pady=5, sticky="e")
+        self.mutation_rate_entry = tk.Entry(root)
+        self.mutation_rate_entry.insert(0, MUTATION_RATE)
+        self.mutation_rate_entry.grid(row=18, column=1, padx=10, pady=5)
+
+        # Vitesse de simulation
+        self.vitesse_simu_label = tk.Label(root, text="Vitesse de simulation (VITESSE_SIMU):")
+        self.vitesse_simu_label.grid(row=19, column=0, padx=10, pady=5, sticky="e")
+        self.vitesse_simu_entry = tk.Entry(root)
+        self.vitesse_simu_entry.insert(0, VITESSE_SIMU)
+        self.vitesse_simu_entry.grid(row=19, column=1, padx=10, pady=5)
 
         # Bouton pour lancer la simulation
         self.start_button = tk.Button(root, text="Lancer Simulation", command=self.start_simulation)
-        self.start_button.grid(row=17, column=0, columnspan=2, padx=10, pady=20)
+        self.start_button.grid(row=20, column=0, columnspan=2, padx=10, pady=20)
 
     def start_simulation(self):
         global GRID_SIZE, CELL_SIZE, NUM_FOOD, NUM_OBSTACLES, NOMBRE_PROIE, NOMBRE_CHASSEUR
         global VITESSE_PROIE, VITESSE_CHASSEUR, DETECT_PROIE, DETECT_CHASSEUR, VITESSE_SIMU
         global ENERGIE_INITIALE_PROIE, ENERGIE_DEPLACEMENT_PROIE, ENERGIE_GAIN_PROIE
         global ENERGIE_INITIALE_CHASSEUR, ENERGIE_DEPLACEMENT_CHASSEUR, ENERGIE_GAIN_CHASSEUR
+        global ENERGIE_REPOS_PROIE, ENERGIE_REPOS_CHASSEUR
+        global MUTATION_RATE
 
         # Récupérer les valeurs des champs
         GRID_SIZE = int(self.grid_size_entry.get())
@@ -140,6 +166,10 @@ class ConfigurationApp:
         ENERGIE_INITIALE_CHASSEUR = int(self.energie_initiale_chasseur_entry.get())
         ENERGIE_DEPLACEMENT_CHASSEUR = int(self.energie_deplacement_chasseur_entry.get())
         ENERGIE_GAIN_CHASSEUR = int(self.energie_gain_chasseur_entry.get())
+        ENERGIE_REPOS_PROIE = float(self.energie_repos_proie_entry.get())
+        ENERGIE_REPOS_CHASSEUR = float(self.energie_repos_chasseur_entry.get())
+        # Récupérer la valeur de mutation_rate
+        MUTATION_RATE = float(self.mutation_rate_entry.get())
 
         # Fermer la fenêtre de configuration
         self.root.destroy()
@@ -164,6 +194,13 @@ class SimulationApp:
         self.tour_count = 0
         self.tour_label = tk.Label(root, text=f"Nombre de tours: {self.tour_count}")
         self.tour_label.pack()
+
+        # Compteur de reproduction
+        self.reproduction_proie_label = tk.Label(root, text=f"Reproduction Proie: {self.env.reproduction_counter_proie}")
+        self.reproduction_proie_label.pack()
+
+        self.reproduction_chasseur_label = tk.Label(root, text=f"Reproduction Chasseur: {self.env.reproduction_counter_chasseur}")
+        self.reproduction_chasseur_label.pack()
 
         # Bouton pause/reprendre
         self.is_paused = False
@@ -210,6 +247,10 @@ class SimulationApp:
             self.tour_count += 1
             self.tour_label.config(text=f"Nombre de tours: {self.tour_count}")
 
+            # Mettre à jour les compteurs de reproduction
+            self.reproduction_proie_label.config(text=f"Reproduction Proie: {self.env.reproduction_counter_proie}")
+            self.reproduction_chasseur_label.config(text=f"Reproduction Chasseur: {self.env.reproduction_counter_chasseur}")
+
             # Effacer les agents
             self.canvas.delete("agents")
 
@@ -235,6 +276,7 @@ class SimulationApp:
 
         # Planifier la prochaine mise à jour après un délai
         self.root.after(VITESSE_SIMU, self.update_canvas)
+
 
 
 if __name__ == "__main__":

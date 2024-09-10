@@ -6,9 +6,9 @@ import random
 class CoucheCachee:
     def __init__(self, nombre_neurones: int, nombre_entrees: int):
         """
-        Initialise une couche cachée avec un certain nombre de neurones et de connexions en entrée.
+        Initialise une couche fully-connected avec un certain nombre de neurones et de connexions en entrée.
         """
-        self.neurones = [Neurone(activation="relu") for _ in range(nombre_neurones)]
+        self.neurones = [Neurone() for _ in range(nombre_neurones)]
         self.poids = [[random.uniform(-1, 1) for _ in range(nombre_entrees)] for _ in range(nombre_neurones)]
     
     def calculer_sorties(self, entrees: list[float]) -> list[float]:
@@ -87,24 +87,27 @@ class GRUNeurone(Neurone):
 
 
 # Classe du réseau neuronal général
+
 class IA:
     def __init__(self, nombre_entrees: int, configuration_couches_cachees: list[int], nombre_sorties: int):
         """
         Initialise le réseau neuronal avec une entrée, des couches cachées et une sortie.
         """
         self.couches_cachees = []
+        self.weights = []  # Ajout d'un attribut pour stocker les poids
         nombre_entrees_actuel = nombre_entrees
 
         # Création des couches cachées
         for nombre_neurones in configuration_couches_cachees:
             if nombre_neurones < 0:
                 # Création d'une couche avec des neurones GRU
-                couche = CoucheCachee(abs(nombre_neurones), nombre_entrees_actuel)
-                for neurone in couche.neurones:
-                    neurone = GRUNeurone(abs(nombre_neurones), nombre_entrees_actuel)
+                couche = GRU(abs(nombre_neurones), nombre_entrees_actuel)
+                # Aucune manipulation explicite des poids dans le cas des GRU
             else:
                 # Création d'une couche Fully-Connected classique
                 couche = CoucheCachee(nombre_neurones, nombre_entrees_actuel)
+                self.weights.append(couche.poids)  # Ajoute les poids de la couche au tableau des poids
+            
             self.couches_cachees.append(couche)
             nombre_entrees_actuel = abs(nombre_neurones)
         
@@ -113,16 +116,26 @@ class IA:
         for neurone in self.couche_sortie.neurones:
             neurone.activation = "tanh"
 
+        # Stocker également les poids de la couche de sortie
+        self.weights.append(self.couche_sortie.poids)
+
     def forward(self, entrees: list[float]) -> list[float]:
         """
-        Réalise la propagation avant à travers tout le réseau.
+        Effectue la propagation avant à travers toutes les couches du réseau.
+        :param entrees: Liste des valeurs d'entrée.
+        :return: Liste des valeurs de sortie.
         """
-        entrees_normalisees = entrees
+        activations = entrees  # Les entrées deviennent les premières activations
 
-        # Propagation à travers chaque couche cachée
+        # Propagation à travers chaque couche cachée (Fully-Connected ou GRU)
         for couche in self.couches_cachees:
-            entrees_normalisees = couche.calculer_sorties(entrees_normalisees)
-        
+            if isinstance(couche, GRU):
+                # Si c'est une couche GRU, on utilise son mécanisme de calcul de sortie
+                activations = couche.calculer_sorties(activations)
+            else:
+                # Si c'est une couche Fully-Connected, on fait une propagation avant normale
+                activations = couche.calculer_sorties(activations)
+
         # Propagation à travers la couche de sortie
-        sorties = self.couche_sortie.calculer_sorties(entrees_normalisees)
+        sorties = self.couche_sortie.calculer_sorties(activations)
         return sorties
