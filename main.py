@@ -125,7 +125,7 @@ class Agent:
 
         # Initialiser l'IA de l'agent
         input_size = 33  # Par exemple, 8 secteurs radar + 1 pour l'énergie
-        layer_sizes = [10,20,5]  # Paramétrable : nombre de neurones dans chaque couche
+        layer_sizes = [20,-10,20,-10]  # Paramétrable : nombre de neurones dans chaque couche
         output_size = 2
         self.ia = IA(input_size, layer_sizes,output_size)  # Poids et seuils générés aléatoirement dans IA
 
@@ -141,8 +141,10 @@ class Agent:
         :param radar_data: Données du radar (sous forme de liste)
         :return: Mouvement décidé par l'IA
         """
+
+        energie_norm = 1-self.energie/self.energie_init
         # Combiner les données du radar (flattées) et l'énergie dans une liste
-        inputs = radar_data + [self.energie]  # Ajouter l'énergie comme dernier élément
+        inputs = radar_data + [energie_norm]  # Ajouter l'énergie comme dernier élément
         
         # Obtenir la sortie du réseau de neurones
         output = self.ia.forward(inputs)
@@ -150,9 +152,9 @@ class Agent:
         # Interpréter la sortie comme un déplacement (par exemple, 2 neurones de sortie)
         dx = -1 if output[0] < -0.33 else (0 if output[0] < 0.33 else 1)
         dy = -1 if output[1] < -0.33 else (0 if output[1] < 0.33 else 1)
-        print(self.agent_type," ",radar_data)
-        print(self.energie)
-        print(self.agent_type," dx = ",dx," dy = ",dy," out = ",output)
+        #print(self.agent_type," ",radar_data)
+        #print(self.energie)
+        #print(self.agent_type," dx = ",dx," dy = ",dy," out = ",output)
         
         return dx, dy
 
