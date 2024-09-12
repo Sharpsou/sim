@@ -25,12 +25,13 @@ class CoucheCachee:
 
 # Classe pour les neurones classiques
 class Neurone:
-    def __init__(self, activation: str = "relu"):
+    def __init__(self, activation: str = "tanh"):
         self.activation = activation
     
     def activation_function(self, x: float) -> float:
         if self.activation == "relu":
-            return max(0, x)
+            #return max(0, x)
+            return x if x >= 0 else 0.1 * x
         elif self.activation == "tanh":
             return math.tanh(x)
         else:

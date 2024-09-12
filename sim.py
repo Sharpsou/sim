@@ -125,7 +125,7 @@ class Agent:
 
         # Initialiser l'IA de l'agent
         input_size = 17  # Par exemple, 8 secteurs radar + 1 pour l'énergie
-        layer_sizes = [10, -5, 5]  # Paramétrable : nombre de neurones dans chaque couche
+        layer_sizes = [5,-5, 5]  # Paramétrable : nombre de neurones dans chaque couche
         output_size = 2
         self.ia = IA(input_size, layer_sizes, output_size)  # Poids et seuils générés aléatoirement dans IA
 
