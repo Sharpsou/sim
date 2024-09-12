@@ -11,7 +11,7 @@ class CoucheCachee:
         self.neurones = [Neurone() for _ in range(nombre_neurones)]
         self.poids = [[random.uniform(-1, 1) for _ in range(nombre_entrees)] for _ in range(nombre_neurones)]
     
-    def calculer_sorties(self, entrees: list[float]) -> list[float]:
+    def calculer_sorties(self, entrees):
         """
         Calcule les sorties de la couche Fully-Connected.
         """
@@ -83,14 +83,14 @@ class GRUNeurone(Neurone):
         """
         self.gru = GRU(nombre_neurones, nombre_entrees)
 
-    def activation_function(self, x: list[float]) -> list[float]:
+    def activation_function(self, x) :
         return self.gru.calculer_sorties(x)
 
 
 # Classe du réseau neuronal général
 
 class IA:
-    def __init__(self, nombre_entrees: int, configuration_couches_cachees: list[int], nombre_sorties: int):
+    def __init__(self, nombre_entrees: int, configuration_couches_cachees, nombre_sorties: int):
         """
         Initialise le réseau neuronal avec une entrée, des couches cachées et une sortie.
         """
@@ -120,7 +120,7 @@ class IA:
         # Stocker également les poids de la couche de sortie
         self.weights.append(self.couche_sortie.poids)
 
-    def forward(self, entrees: list[float]) -> list[float]:
+    def forward(self, entrees) :
         """
         Effectue la propagation avant à travers toutes les couches du réseau.
         :param entrees: Liste des valeurs d'entrée.
